@@ -17,33 +17,33 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    @Transactional
     public List<User> printUsers() {
         return userDao.printUsers();
     }
 
     @Override
-    @Transactional
     public void save(User user) {
         userDao.save(user);
     }
 
     @Override
-    @Transactional
     public void delete(int id) {
         userDao.delete(id);
     }
 
-    @Transactional
     @Override
     public void edit(User user) {
         userDao.edit(user);
     }
 
     @Override
-    @Transactional
     public User printUserById(int id) {
         return userDao.printUserById(id);
+    }
+
+    @Override
+    public User findUserByName(String name){
+        return userDao.findUserByName(name);
     }
 
 }

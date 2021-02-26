@@ -16,4 +16,6 @@ public interface UserService {
     void edit(User user);
 
     User printUserById(int id);
+
+    User findUserByName(String name);
 }

@@ -16,4 +16,6 @@ public interface UserDao {
 
     User printUserById(int id);
 
+    public User findUserByName(String name);
+
 }
