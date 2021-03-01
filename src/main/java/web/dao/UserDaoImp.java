@@ -50,17 +50,17 @@ public class UserDaoImp implements UserDao {
     private final Map<String, User> userMap = new HashMap<>();
     @Override
     public User findUserByName(String name) {
-        userMap.put("user",
-                new User("user", 1, "user", Collections.singleton(new Role(1L, "ROLE_USER"))));
+       userMap.put("user",
+              new User("user", 1, "user", Collections.singleton(new Role(1L, "ROLE_USER"))));
         userMap.put("admin",
-                new User("admin", 2, "admin", Collections.singleton(new Role(2L, "ROLE_ADMIN"))));
+              new User("admin", 2, "admin", Collections.singleton(new Role(2L, "ROLE_ADMIN"))));
         if (!userMap.containsKey(name)) {
-            return null;
-        }
+           return null;
+       }
         //TypedQuery<User> query = entityManager.createQuery("select u from User u where u.name=:name", User.class);
         //query.setParameter("name", name);
        //return query.getResultList().stream().findAny().orElse(null);
-        return userMap.get(name);
+       return userMap.get(name);
     }
 
 }
