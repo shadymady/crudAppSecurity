@@ -10,12 +10,12 @@ public interface UserDao {
 
     void save(User user);
 
-    void delete(int id);
+    void delete(Long id);
 
     void edit(User user);
 
-    User printUserById(int id);
+    User printUserById(Long id);
 
-    public User findUserByName(String name);
+    public User findUserByName(String firstName);
 
 }

@@ -20,14 +20,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping()
     public String printUsers(ModelMap model) {
         model.addAttribute("users", userService.printUsers());
         return "users/userindex";
     }
 
     @GetMapping("/{id}")
-    public String printUserById(@PathVariable("id") int id, ModelMap model){
+    public String printUserById(@PathVariable("id") Long id, ModelMap model){
         model.addAttribute("user", userService.printUserById(id));
         return "users/userpage";
     }

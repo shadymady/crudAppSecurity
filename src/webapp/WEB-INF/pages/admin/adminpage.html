@@ -8,18 +8,23 @@
     <title>User</title>
 </head>
 <body>
-Id <br>
-<p th:text="${user.getId()}">id</p> <br>
+Id:
+<p th:text="${user.getId()}">id</p>
 
-Name <br>
-<p th:text="${user.getName()}">name</p> <br>
+First Name:
+<p th:text="${user.getFirstName()}">firstName</p>
 
+Last Name:
+<p th:text="${user.getLastName()}">lastName</p>
 
-Age <br>
-<p th:text="${user.getAge()}">age</p><br>
+Age:
+<p th:text="${user.getAge()}">age</p>
 
-Password <br>
-<p th:text="${user.getPassword()}">password</p><br>
+Email:
+<p th:text="${user.getEmail()}">email</p>
+
+Password:
+<p th:text="${user.getPassword()}">password</p>
 
 <div sec:authorize="hasRole('ROLE_ADMIN')">
     <a th:href="@{/admin/{id}/edit(id=${user.getId()})}">Edit</a>
@@ -28,9 +33,8 @@ Password <br>
     </form>
 </div>
 
-
 <br><br>
-<form th:method="POST" th:action="@{/logout}" >
+<form th:method="POST" th:action="@{/logout}">
     <input type="submit" value="Logout">
 </form>
 </body>

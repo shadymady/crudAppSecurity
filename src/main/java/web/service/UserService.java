@@ -11,11 +11,11 @@ public interface UserService {
 
     void save(User user);
 
-    void delete(int id);
+    void delete(Long id);
 
     void edit(User user);
 
-    User printUserById(int id);
+    User printUserById(Long id);
 
-    User findUserByName(String name);
+    User findUserByName(String firstName);
 }

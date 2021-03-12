@@ -26,7 +26,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public User printUserById(int id){
+    public User printUserById(Long id){
         User user = entityManager.find(User.class, id);
         return user;
     }
@@ -42,14 +42,14 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void delete(int id){
+    public void delete(Long id){
         User user = entityManager.find(User.class, id);
         entityManager.remove(user);
     }
     @Override
-    public User findUserByName(String name) {
-        TypedQuery<User> query = entityManager.createQuery("select u from User u where u.name=:name", User.class);
-        query.setParameter("name", name);
+    public User findUserByName(String firstName) {
+        TypedQuery<User> query = entityManager.createQuery("select u from User u where u.firstName=:firstName", User.class);
+        query.setParameter("firstName", firstName);
 
         return query.getResultList().stream().findAny().orElse(null);
     }

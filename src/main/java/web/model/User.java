@@ -13,15 +13,21 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column
-    private String name;
+    private String firstName;
+
+    @Column
+    private String lastName;
 
     @Column
     private int age;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @Column
+    private String email;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
@@ -32,27 +38,37 @@ public class User implements UserDetails {
     public User(){
     }
 
-    public User(String name, int age, String password, Set<Role> roles){
-        this.name = name;
+    public User(String firstName, String lastName, int age, String email, String password, Set<Role> roles){
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.age = age;
+        this.email = email;
         this.roles = roles;
         this.password = password;
     }
 
-    public int getId(){
+    public Long getId(){
         return id;
     }
 
-    public void setId(int id){
+    public void setId(Long id){
         this.id = id;
     }
 
-    public String getName(){
-        return name;
+    public String getFirstName(){
+        return firstName;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setFirstName(String firstName){
+        this.firstName = firstName;
+    }
+
+    public String getLastName(){
+        return lastName;
+    }
+
+    public void setLastName(String lastName){
+        this.lastName = lastName;
     }
 
     public int getAge(){
@@ -63,6 +79,14 @@ public class User implements UserDetails {
         this.age = age;
     }
 
+    public String getEmail(){
+        return email;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -71,13 +95,13 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -87,7 +111,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return firstName;
     }
 
     @Override

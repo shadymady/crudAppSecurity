@@ -4,8 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import web.model.Role;
 import web.model.User;
 import web.service.UserService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -17,41 +21,64 @@ public class AdminController {
     @GetMapping
     public String allUsers(Model model) {
         model.addAttribute("users", userService.printUsers());
-        return "users/index";
+        return "admin/index";
     }
 
     @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user) {
-        return "users/new";
+        return "admin/new";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("user") User user) {
+    public String create(@ModelAttribute("user") User user,
+                         @RequestParam(value = "userCheck", required = false) boolean userCheck,
+                         @RequestParam(value = "adminCheck", required = false) boolean adminCheck) {
+        Set<Role> roles = new HashSet<>();
+        if (userCheck) {
+            roles.add(new Role(2L, "ROLE_USER"));
+        }
+        if (adminCheck) {
+            roles.add(new Role(1L, "ROLE_ADMIN"));
+        }
+        user.setRoles(roles);
         userService.save(user);
         return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
-    public String editUser(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", userService.printUserById(id));
-        return "users/edit";
+    public String editUser(Model model, @PathVariable("id") Long id) {
+        User user = userService.printUserById(id);
+        model.addAttribute("users", user);
+        model.addAttribute("roles", user.getRoles().toString());
+        return "admin/edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+    public String update(@ModelAttribute("user") User user,
+                         @RequestParam(value = "userCheck", required = false) boolean userCheck,
+                         @RequestParam(value = "adminCheck", required = false) boolean adminCheck) {
+        user.setRoles(null);
+        Set<Role> roles = new HashSet<>();
+        if (adminCheck) {
+            roles.add(new Role(1L, "ROLE_ADMIN"));
+        }
+        if (userCheck) {
+            roles.add(new Role(2L, "ROLE_USER"));
+        }
+        user.setRoles(roles);
         userService.edit(user);
         return "redirect:/admin";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
+    public String deleteUser(@PathVariable("id") Long id) {
         userService.delete(id);
         return "redirect: /admin";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    public String show(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.printUserById(id));
-        return "users/adminpage";
+        return "admin/adminpage";
     }
 }
